@@ -9,7 +9,7 @@ api = Blueprint('api', __name__)
 INTERNAL_SERVER_ERROR = {'message': 'An internal error occurred.'}
 
 
-@api.route('/v1/products')
+@api.route('/v1/products', methods=['GET'])
 def get_products():
     """
     Endpoint to retrieve all the stored products.
@@ -29,7 +29,7 @@ def get_products():
         return jsonify(INTERNAL_SERVER_ERROR), 500
 
 
-@api.route('/v1/product/<product_id>')
+@api.route('/v1/product/<int:product_id>', methods=['GET'])
 def get_product_by_id(product_id):
     """
     Endpoint to retrieve the information related to a specific product.
