@@ -56,7 +56,7 @@ class APITestCase(unittest.TestCase):
 
     def test_valid_get_product(self):
         """
-        Tests the /v1/product/<product_id> endpoint for a valid request.
+        Tests the /v1/product/<product_id> endpoint for a valid GET request.
         """
         # Getting the first product
         res_1 = self.client().get('/v1/product/1')
@@ -81,10 +81,47 @@ class APITestCase(unittest.TestCase):
 
     def test_invalid_get_product(self):
         """
-         Tests the /v1/product/<product_id> endpoint for an invalid request.
-         """
+        Tests the /v1/product/<product_id> endpoint for an invalid GET request.
+        """
         res = self.client().get('/v1/product/400')
         self.assertEqual(res.status_code, 404)
+
+    def test_valid_insert_product(self):
+        """
+         Tests the /v1/product endpoint for an valid POST request.
+         """
+        res_post = self.client().post('/v1/product', data={'name': 'TestName', 'price': '9.93'})
+        self.assertEqual(res_post.status_code, 200)
+        new_product = json.loads(res_post.get_data(as_text=True))
+        res_get = self.client().get('/v1/product/{}'.format(new_product['id']))
+        new_product_from_get = json.loads(res_get.get_data(as_text=True))
+        self.assertEqual(new_product_from_get['id'], new_product['id'])
+        self.assertEqual(new_product_from_get['name'], 'TestName')
+        self.assertEqual(new_product_from_get['price'], '9.93')
+        self.assertEqual(new_product_from_get['currency_iso'], None)
+
+    def test_valid_update_product(self):
+        """
+        Tests the /v1/product/<product_id> endpoint for a valid PUT request.
+        """
+        res_post = self.client().post('/v1/product', data={'name': 'TestName', 'price': '9.93'})
+        self.assertEqual(res_post.status_code, 200)
+        new_product = json.loads(res_post.get_data(as_text=True))
+        # Updates the newly inserted product
+        res_put = self.client().put('/v1/product/{}'.format(new_product['id']), data={'name': 'UpdatedTestName'})
+        self.assertEqual(res_put.status_code, 200)
+        updated_product = json.loads(res_put.get_data(as_text=True))
+        self.assertEqual(updated_product['id'], new_product['id'])
+        self.assertEqual(updated_product['name'], 'UpdatedTestName')
+        self.assertEqual(updated_product['price'], '9.93')
+        self.assertEqual(updated_product['currency_iso'], None)
+
+    def test_invalid_update_product(self):
+        """
+        Tests the /v1/product/<product_id> endpoint for an invalid PUT request.
+        """
+        res_put = self.client().put('/v1/product/402', data={'name': 'UpdatedTestName'})
+        self.assertEqual(res_put.status_code, 404)
 
     def tearDown(self):
         """
@@ -95,6 +132,7 @@ class APITestCase(unittest.TestCase):
             db.session.remove()
             db.drop_all()
             db.session.commit()
+
 
 # Makes the tests conveniently executable
 if __name__ == "__main__":
