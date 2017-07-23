@@ -54,6 +54,31 @@ class APITestCase(unittest.TestCase):
         self.assertEqual(products[2]['name'], 'Kids T-shirt')
         self.assertEqual(products[2]['price'], '19.95')
 
+    def test_valid_get_product(self):
+        """
+        Tests the /v1/product/<product_id> endpoint.
+        """
+        # Getting the first product
+        res_1 = self.client().get('/v1/product/1')
+        self.assertEqual(res_1.status_code, 200)
+        product_1 = json.loads(res_1.get_data(as_text=True))
+        self.assertEqual(product_1['id'], 1)
+        self.assertEqual(product_1['name'], 'Lavender heart')
+        self.assertEqual(product_1['price'], '9.25')
+        # Getting the second product
+        res_2 = self.client().get('/v1/product/2')
+        self.assertEqual(res_2.status_code, 200)
+        product_2 = json.loads(res_2.get_data(as_text=True))
+        self.assertEqual(product_2['id'], 2)
+        self.assertEqual(product_2['name'], 'Personalised cufflinks')
+        self.assertEqual(product_2['price'], '45.00')
+        # Getting the third product
+        res_3 = self.client().get('/v1/product/3')
+        product_3 = json.loads(res_3.get_data(as_text=True))
+        self.assertEqual(product_3['id'], 3)
+        self.assertEqual(product_3['name'], 'Kids T-shirt')
+        self.assertEqual(product_3['price'], '19.95')
+
     def tearDown(self):
         """
         Teardowns all the initialized objects/structures.
