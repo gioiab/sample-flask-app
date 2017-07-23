@@ -123,6 +123,19 @@ class APITestCase(unittest.TestCase):
         res_put = self.client().put('/v1/product/402', data={'name': 'UpdatedTestName'})
         self.assertEqual(res_put.status_code, 404)
 
+    def test_valid_and_invalid_delete_product(self):
+        """
+        Tests the /v1/product/<product_id> endpoint for both a valid and invalid DELETE request.
+        """
+        # Tests a valid deletion
+        res_del = self.client().delete('/v1/product/3')
+        self.assertEqual(res_del.status_code, 200)
+        res_get = self.client().get('/v1/product/3')
+        self.assertEqual(res_get.status_code, 404)
+        # Tests an invalid deletion
+        res_del_2 = self.client().delete('/v1/product/3')
+        self.assertEqual(res_del_2.status_code, 404)
+
     def tearDown(self):
         """
         Teardowns all the initialized objects/structures.

@@ -7,6 +7,7 @@ api = Blueprint('api', __name__)
 
 INTERNAL_SERVER_ERROR_MESSAGE = {'message': 'An internal error occurred.'}
 BAD_REQUEST_MESSAGE = {'message': 'Bad request.'}
+OK_MESSAGE = {'message': 'Operation successful.'}
 
 
 @api.route('/v1/products', methods=['GET'])
@@ -29,13 +30,17 @@ def get_products():
         return jsonify(INTERNAL_SERVER_ERROR_MESSAGE), 500
 
 
-@api.route('/v1/product/<int:product_id>', methods=['GET', 'PUT'])
+@api.route('/v1/product/<int:product_id>', methods=['GET', 'PUT', 'DELETE'])
 def get_product_by_id(product_id):
     """
-    Endpoint to retrieve the information related to a specific product.
+    Endpoint devoted to:
+    - retrieve the information related to a specific product
+    - update an existing product
+    - delete an existing product
 
     :param: the id of the product for which we should return the information
-    :return: all the information related to the asked product if the product exists, else 404
+    :return: all the information related to the asked/new product if the product exists for GET and PUT,
+    just a success message for DELETE - if the product doesn't exist returns 404
     """
     # Gets the product with the given ID or returns 404 if not found
     product = Product.query.get_or_404(product_id)
@@ -47,13 +52,20 @@ def get_product_by_id(product_id):
         # If neither the name nor the price are provided we return 400 Bad Request
         if not name and not price:
             return jsonify(BAD_REQUEST_MESSAGE), 400
-        else: # either name or price is present in the request
-            if name:
-                product.name = name
-            if price:
-                product.price = price
-            db.session.commit()
-            return jsonify(product.as_dict()), 200
+        else:  # either name or price is present in the request
+            try:
+                if name:
+                    product.name = name
+                if price:
+                    product.price = price
+                db.session.commit()
+                return jsonify(product.as_dict()), 200
+            except IntegrityError:
+                return jsonify(BAD_REQUEST_MESSAGE), 400
+    else: # request.method == 'DELETE'
+        db.session.delete(product)
+        db.session.commit()
+        return jsonify(OK_MESSAGE), 200
 
 
 @api.route('/v1/product', methods=['POST'])
