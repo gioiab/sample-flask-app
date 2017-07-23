@@ -1,4 +1,3 @@
-import json
 from flask import Blueprint, jsonify
 from sqlalchemy.exc import IntegrityError
 from core.models import Product, db
