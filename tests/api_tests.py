@@ -56,7 +56,7 @@ class APITestCase(unittest.TestCase):
 
     def test_valid_get_product(self):
         """
-        Tests the /v1/product/<product_id> endpoint.
+        Tests the /v1/product/<product_id> endpoint for a valid request.
         """
         # Getting the first product
         res_1 = self.client().get('/v1/product/1')
@@ -78,6 +78,13 @@ class APITestCase(unittest.TestCase):
         self.assertEqual(product_3['id'], 3)
         self.assertEqual(product_3['name'], 'Kids T-shirt')
         self.assertEqual(product_3['price'], '19.95')
+
+    def test_invalid_get_product(self):
+        """
+         Tests the /v1/product/<product_id> endpoint for an invalid request.
+         """
+        res = self.client().get('/v1/product/400')
+        self.assertEqual(res.status_code, 404)
 
     def tearDown(self):
         """
