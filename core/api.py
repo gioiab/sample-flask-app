@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+"""
+This script implements CRUD APIs to access to the Product:s defined in the data models.
+"""
+
 from flask import Blueprint, jsonify, request
 from sqlalchemy.exc import IntegrityError
 from core.models import Product, db

@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+"""
+This script tests the CRUD APIs implemented in api.py.
+"""
+
 import json
 import unittest
 from config import configs
