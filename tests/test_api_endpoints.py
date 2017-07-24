@@ -1,5 +1,6 @@
 import json
 import unittest
+from config import configs
 from core.models import Currency, Product
 from main_app import create_app, db
 
@@ -32,7 +33,7 @@ class APITestCase(unittest.TestCase):
         """
         Sets up the test application, client and database.
         """
-        self.app = create_app(object_config='config.TestingConfig')
+        self.app = create_app(config=configs['test'])
         self.client = self.app.test_client
         self.create_test_tables()
 
