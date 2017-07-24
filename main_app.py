@@ -7,7 +7,6 @@ import os
 from flask import Flask
 from core.api import api
 from core.models import db
-
 from config import configs
 
 
