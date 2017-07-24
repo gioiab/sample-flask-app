@@ -38,5 +38,6 @@ class ProductionConfig(BaseConfig):
 # Collects all the available configurations in a dictionary
 configs = {'dev': DevelopmentConfig,
            'test': TestingConfig,
+           'stage': StagingConfig,
            'prod': ProductionConfig,
            'default': ProductionConfig}
