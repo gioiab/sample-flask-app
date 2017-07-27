@@ -5,11 +5,11 @@
 Write a sample backend application for an online marketplace. Here is a sample of some of the products available on
 the site.
 
-| Product code | Name                   | Price  |
+| Product ID   | Name                   | Price  |
 |--------------|------------------------|--------|
-| 001          |  Lavender heart        | £9.25  |
-| 002          | Personalised cufflinks | £45.00 |
-| 003          | Kids T-shirt           | £19.95 |
+| 5            | Chocolate              | $2.50  |
+| 6            | Salad bio              | $1.90  |
+| 7            | Fresh Seafood          | $32.45 |
 
 Create a RESTful API to implement CRUD operations on this data. The following endpoints should be provided:
 
