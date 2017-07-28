@@ -2,27 +2,31 @@
 
 ## Problem
 
-Write a sample backend application for an online marketplace. Here is a sample of some of the products available on
-the site.
+Write a sample backend application for an online marketplace. The following is a view on the products available on
+the site:
 
-| Product ID   | Name                   | Price  |
-|--------------|------------------------|--------|
-| 5            | Chocolate              | $2.50  |
-| 6            | Salad bio              | $1.90  |
-| 7            | Fresh Seafood          | $32.45 |
+| Product ID   | Name                   | Price  | Currency  |
+|--------------|------------------------|--------|-----------|
+| 5            | Chocolate              |  2.50  |    USD    |
+| 6            | Salad bio              |  1.90  |    USD    |
+| 7            | Fresh Seafood          |  32.45 |    USD    |
 
-Create a RESTful API to implement CRUD operations on this data. The following endpoints should be provided:
+Implement a RESTful API that provides endpoints for:
 
-- GET /products – A list of products, names, and prices in JSON format.
-- POST /product – Create a new product using posted form data
-- GET /product/{product_id} – Return a single product in JSON format.
-- PUT /product/{product_id} – Update a product’s name or price by id.
-- DELETE /product/{product_id} – Delete a product by id.
+- listing all the available products, with their name and price in JSON format (HTTP method GET)
+- creating a new product with the information provided (HTTP method POST)
+- listing all the information related to a specific product in JSON format (HTTP method GET)
+- Update the information related to a specific product (HTTP method PUT)
+- Delete a specific product (HTTP method DELETE)
 
-The service should be implemented in Python 3 using the Flask framework. Make sure that there are sensible return values
-for both successful and unsuccessful requests (e.g. the server should report a code such as 404 for an unknown product ID
-and not error out). Use and implement a database, though the technology you use is your choice; you may also use any 
-publicly-available (i.e. pip installable) Flask extensions you like (ORMs, API helpers, etc).
+Ensure that coherent return values are returned both in case of success and in case of failure: e.g. the web service
+should return a 404 HTTP error when asked for the information of a non-existing product.
+
+### Implementation requirements
+
+To implement the web service, use Python3 together with the Flask framework. You're free to choose the database
+technology of your preference along with any Flask extension publicly available. Be sure to include a `requirements.txt`
+file in your solution.
 
 
 ## Solution
